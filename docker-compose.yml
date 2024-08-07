@@ -1,0 +1,23 @@
+volumes:
+  postgres:
+
+services:
+  db:
+    image: postgres:16-bookworm
+    shm_size: 128mb
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: prophet
+      POSTGRES_DB: prophet
+    ports:
+      - 5432:5432
+  
+  # The tor node service has a super low rate limit so to avoid that in dev host it locally
+  test-service:
+    image: nginx:1-bookworm
+    volumes:
+      - ./test-data:/usr/share/nginx/html:ro
+    ports:
+      - 8081:80
