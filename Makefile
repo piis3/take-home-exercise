@@ -8,7 +8,7 @@ setup:
 	jet -dsn=${DB_CONNECTION} -path=./.gen
 
 build:
-	go build -o prophet ./service.go
+	go build -o prophet ./service.go ./fetchnodes.go ./dao.go
 
 clean:
 	rm -rf .gen prophet

@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+	"os"
 	"prophet/takehome/.gen/prophet/public/model"
 	. "prophet/takehome/.gen/prophet/public/table"
 	"time"
@@ -13,11 +14,16 @@ import (
 )
 
 const (
-	URL = "http://localhost:8081/dan.me.torlist"
+	DEFAULT_URL = "http://localhost:8081/dan.me.torlist"
 )
 
 func fetchTorNodes() []string {
-	resp, err := http.Get(URL)
+	url := DEFAULT_URL
+	if envUrl := os.Getenv("TOR_NODE_URL"); envUrl != "" {
+		url = envUrl
+	}
+
+	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,7 +36,7 @@ func fetchTorNodes() []string {
 	}
 
 	if err := scanner.Err(); err != nil {
-		log.Printf("Got error fetching tor nodes from %s, %v", URL, err)
+		log.Printf("Got error fetching tor nodes from %s, %v", url, err)
 		return nil
 	}
 

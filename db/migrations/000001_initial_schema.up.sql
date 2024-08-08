@@ -4,7 +4,7 @@ create table if not exists node_fetch_history(
 );
 
 create table if not exists exit_nodes (
-  node_address inet not null,
+  node_address varchar(255) not null,
   fetch_time timestamp not null,
   primary key (node_address, fetch_time)
 );
