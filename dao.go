@@ -63,6 +63,8 @@ func ListCurrentNodes(db *sql.DB, pagingToken string, limit int) (PagedResult[mo
 func ListNodesInTimeRange(db *sql.DB, pagingToken string, limit int, startTime time.Time, endTime time.Time) (PagedResult[model.ExitNodes], error) {
 	var models []model.ExitNodes
 
+	// This left join with the is null where clause filters out any entries in the allow list.
+	// Typically, this would be done with a where not exists clause but the jet library doesn't support that.
 	query := SELECT(ExitNodes.NodeAddress, MAX(ExitNodes.FetchTime)).
 		FROM(ExitNodes.LEFT_JOIN(AllowList, ExitNodes.NodeAddress.EQ(AllowList.NodeAddress))).
 		WHERE(ExitNodes.NodeAddress.GT(String(pagingToken)).

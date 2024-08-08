@@ -14,7 +14,8 @@ import (
 )
 
 const (
-	DEFAULT_URL = "http://localhost:8081/dan.me.torlist"
+	// DEFAULT_URL = "http://localhost:8081/dan.me.torlist"
+	DEFAULT_URL = "https://www.dan.me.uk/torlist/?exit"
 )
 
 func fetchTorNodes() []string {
